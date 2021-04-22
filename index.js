@@ -39,16 +39,27 @@ function Airplane(name) {
           + It should return a string with `name` and `age`. Example: "Mary, 50"
   */
   
- function Person() {
-    
+ function Person(name, age) {
+    this.name = name;
+    this.age = age;
+    this.stomach = [];
   }
+ Person.prototype.eat = function(edible) {
+   if(this.stomach.length < 10) {
+      this.stomach.push(edible);
+   }
+ }
+ Person.prototype.poop = function(){
+   this.stomach = [];
+ }
+ Person.prototype.toString = function(){
+   return `${this.name}, ${this.age}`;
+ }
  
- 
+const bob = new Person("Bob", 25)
 
-  
-  
-  
-  
+console.log(bob)
+
   /*
     TASK 2
       - Write a Car constructor that initializes `model` and `milesPerGallon` from arguments.
@@ -63,30 +74,53 @@ function Airplane(name) {
           + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
   */
   
- function Car() {
-    
+ function Car(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
+  }
+
+  Car.prototype.fill = function(gallons){
+
+    this.tank = this.tank + gallons;
   }
   
   
   /*
     TASK 3
-      - Write a Baby constructor subclassing Person.
-      - Besides `name` and `age`, Baby takes a third argument to initialize `favoriteToy`.
+      - Write a Baby constructor subclassing Person. ✅
+      - Besides `name` and `age`, Baby takes a third argument to initialize `favoriteToy`. ✅
       - Besides the methods on Person.prototype, babies have the ability to `.play()`:
           + Should return a string "Playing with x", x being the favorite toy.
   */
- function Baby() {
-   
+
+ function Baby(name, age, favToy) {
+// Apply the call() method on the Parent class
+// Pass in the this keyword, and the two arguments that are needed by the Parent
+   Person.call(this, name, age)
+
+// Special attributes for the child class go here
+  this.favoriteToy = favToy
+
+  Baby.prototype.play = function(){
+    return `Playing with ${favToy}`;
   }
- 
+
+}
+Baby.prototype = Object.create(Person.prototype);
+
+  const gooGooGaGa = new Baby("Boss Baby", 1, "Machete")
+
+  console.log(gooGooGaGa)
   
   /* 
     TASK 4
     In your own words explain the four principles for the "this" keyword below:
-    1. 
-    2. 
-    3. 
-    4. 
+    1. Global Binding - If in global scope the this value would be the whole window or console object.
+    2. Implicit Binding - if you use a method on the object what ever you want is going to be added to what ever is left of the dot
+    3. New Binding - Refer to the object that is going to be created with the new keyword
+    4. Explicit Binding - The "this" is explicitly defined
   */
   
   
